@@ -3,7 +3,7 @@ package constant;
 /**
  * Класс для хранения переменных, содержащих тексты ошибок API Courier
  */
-public class ErrorMessage {
+public class ConstantErrorMessage {
     public static final String ERROR_USER_CREATE_DUPLICATE = "User already exists";
     public static final String ERROR_USER_CREATE_NULL_CREDENTIALS = "Email, password and name are required fields";
     public static final String ERROR_USER_LOGIN_NULL_CREDENTIALS = "email or password are incorrect";

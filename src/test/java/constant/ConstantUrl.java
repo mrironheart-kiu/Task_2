@@ -3,7 +3,7 @@ package constant;
 /**
  * Класс для хранения переменных, содержащих путь до API
  */
-public class Url {
+public class ConstantUrl {
     public static final String URL_BASE = "https://stellarburgers.education-services.ru";
     public static final String URL_BASE_PATH = "/api";
     public static final String URL_BASE_AUTH_PATH = URL_BASE_PATH + "/auth";
