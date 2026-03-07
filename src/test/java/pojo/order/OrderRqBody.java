@@ -1,0 +1,17 @@
+package pojo.order;
+
+import lombok.*;
+
+import java.util.List;
+
+/**
+ * Класс для обработки тела запроса API создания заказа /orders
+ */
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@Getter
+@Builder(toBuilder = true)
+@ToString
+public class OrderRqBody {
+    private List<String> ingredients;
+}
