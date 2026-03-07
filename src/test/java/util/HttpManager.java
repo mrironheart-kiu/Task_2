@@ -70,22 +70,9 @@ public class HttpManager {
      * Вызов метода DELETE
      *
      * @param path Путь до API
-     * @return Объект Response для дальнейшей обработки
      */
     @Step("Выполняем вызов DELETE на метод {0}")
-    public Response httpDelete(String path) {
-        return given().config(getConfig()).delete(path);
-    }
-
-    /**
-     * Вызов метода DELETE
-     *
-     * @param path  Путь до API
-     * @param param Параметр для удаления (ID)
-     * @return Объект Response для дальнейшей обработки
-     */
-    @Step("Выполняем вызов DELETE на метод {0}")
-    public Response httpDelete(String path, Object param) {
-        return param == null ? httpDelete(path) : given().config(getConfig()).delete(path + "/" + param);
+    public void httpDelete(String path, String userToken) {
+        given().config(getConfig()).auth().oauth2(userToken).delete(path);
     }
 }
