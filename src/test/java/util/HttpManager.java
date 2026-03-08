@@ -7,8 +7,6 @@ import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-import java.util.Map;
-
 import static io.restassured.RestAssured.given;
 
 /**
@@ -48,10 +46,19 @@ public class HttpManager {
                 .get(path);
     }
 
-    @Step("Выполняем вызов GET на метод {0}")
-    public Response httpGet(String path, Map<String, Object> queryParams) {
-        return queryParams == null ? httpGet(path) :
-                given().contentType(ContentType.JSON).queryParams(queryParams).get(path);
+    /**
+     * Вызов метода GET с токеном пользователя
+     *
+     * @param path      Путь до API
+     * @param userToken Токен пользователя
+     * @return Объект Response для дальнейшей обработки
+     */
+    @Step("Выполняем вызов GET на метод {0} с токеном пользователя")
+    public Response httpGet(String path, String userToken) {
+        return userToken == null ? httpGet(path) :
+                given().contentType(ContentType.JSON)
+                        .and().auth().oauth2(userToken)
+                        .get(path);
     }
 
     /**
@@ -64,6 +71,36 @@ public class HttpManager {
     @Step("Выполняем вызов POST на метод {0}")
     public Response httpPost(String path, Object body) {
         return given().config(getConfig()).contentType(ContentType.JSON).and().body(body).when().post(path);
+    }
+
+    /**
+     * Вызов метода PATCH
+     *
+     * @param path Путь до API
+     * @param body Тело запроса API
+     * @return Объект Response для дальнейшей обработки
+     */
+    @Step("Выполняем вызов PATCH на метод {0}")
+    public Response httpPatch(String path, Object body) {
+        return given().config(getConfig()).contentType(ContentType.JSON).and().body(body).when().patch(path);
+    }
+
+    /**
+     * Вызов метода PATCH с токеном пользователя
+     *
+     * @param userToken Токен пользователя
+     * @param path      Путь до API
+     * @param body      Тело запроса API
+     * @return Объект Response для дальнейшей обработки
+     */
+    @Step("Выполняем вызов PATCH на метод {0} с токеном пользователя")
+    public Response httpPatch(String userToken, String path, Object body) {
+        return userToken == null ? httpPatch(path, body) :
+                given().config(getConfig())
+                        .contentType(ContentType.JSON)
+                        .and().auth().oauth2(userToken)
+                        .and().body(body)
+                        .when().patch(path);
     }
 
     /**

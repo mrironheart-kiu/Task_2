@@ -12,8 +12,8 @@ public class AssertStep {
         assertEquals(expectedStatus, actualStatus, DEFAULT_ERROR_COMMENT);
     }
 
-    @Step("Проверяем текст сообщения в теле ответа")
-    public static void checkBodyMessage(String expectedMessage, String actualMessage) {
+    @Step("Проверяем значение атрибута в теле ответа")
+    public static void checkBodyAttributeValue(String expectedMessage, String actualMessage) {
         assertEquals(expectedMessage, actualMessage, DEFAULT_ERROR_COMMENT);
     }
 
@@ -22,6 +22,6 @@ public class AssertStep {
             Boolean expectedStatus, Boolean actualStatus,
             String expectedMessage, String actualMessage) {
         checkBodyStatus(expectedStatus, actualStatus);
-        checkBodyMessage(expectedMessage, actualMessage);
+        checkBodyAttributeValue(expectedMessage, actualMessage);
     }
 }

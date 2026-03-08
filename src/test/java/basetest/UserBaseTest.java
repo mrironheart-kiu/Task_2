@@ -1,19 +1,21 @@
 package basetest;
 
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import pojo.user.*;
 import testdata.TestDataProvider;
 import util.HttpManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static constant.ConstantUrl.*;
 
-public class UserBaseTest {
-    private HttpManager httpManager;
-    private UserRqBody userRqBody = new UserRqBody();
-    protected Response response;
+public class UserBaseTest extends BaseTest {
+    protected UserRqBody userRqBody = new UserRqBody();
+    private String userToken;
+    private final List<String> userTokenList = new ArrayList<>();
 
     @Step("Создаём тестовые данные перед выполнением теста")
     @BeforeEach
@@ -21,7 +23,7 @@ public class UserBaseTest {
         httpManager = new HttpManager(URL_BASE);
         userRqBody = userRqBody.toBuilder()
                 .email(TestDataProvider.getRandomEmail())
-                .password(TestDataProvider.getRandomEmail())
+                .password(TestDataProvider.getRandomPassword())
                 .name(TestDataProvider.getRandomName())
                 .build();
     }
@@ -29,8 +31,10 @@ public class UserBaseTest {
     @Step("Очищаем тестовые данные после выполнения теста")
     @AfterEach
     void tearDown() {
-        if (response.body().as(UserRsBody.class).getAccessToken() != null) {
-            httpManager.httpDelete(URL_USER, getUserToken());
+        if (!userTokenList.isEmpty()) {
+            for (String userToken : userTokenList) {
+                httpManager.httpDelete(URL_USER, userToken);
+            }
         }
     }
 
@@ -39,6 +43,11 @@ public class UserBaseTest {
      */
     public void createUser() {
         response = httpManager.httpPost(URL_USER_REGISTER, userRqBody);
+
+        if (response.body().as(UserRsBody.class).getAccessToken() != null) {
+            userToken = response.body().as(UserRsBody.class).getAccessToken().split(" ")[1];
+            userTokenList.add(userToken);
+        }
     }
 
     /**
@@ -64,12 +73,53 @@ public class UserBaseTest {
     }
 
     /**
-     * Метод возвращается уникальный пользовательский токен
-     *
-     * @return String accessToken
+     * Метод обновляет имя пользователя случайными данными
      */
-    public String getUserToken() {
-        return httpManager.httpPost(URL_USER_LOGIN, userRqBody)
-                .body().as(UserRsBody.class).getAccessToken().split(" ")[1];
+    public void updateUserName() {
+        createUser();
+        userRqBody.setName(TestDataProvider.getRandomName());
+        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+    }
+
+    /**
+     * Метод обновляет email адрес пользователя случайными данными
+     */
+    public void updateUserEmail() {
+        createUser();
+        userRqBody.setEmail(TestDataProvider.getRandomEmail());
+        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+    }
+
+    /**
+     * Метод обновляет email адрес пользователя случайными данными
+     */
+    public void updateUserEmailDuplicate() {
+        createUser();
+        String existUserEmail = userRqBody.getEmail();
+        userRqBody = userRqBody.toBuilder()
+                .email(TestDataProvider.getRandomEmail())
+                .password(TestDataProvider.getRandomPassword())
+                .name(TestDataProvider.getRandomName())
+                .build();
+        createUser();
+        userRqBody.setEmail(existUserEmail);
+        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+    }
+
+    /**
+     * Метод обновляет имя и email адрес пользователя случайными данными
+     */
+    public void updateUserNameAndEmail() {
+        createUser();
+        userRqBody.setName(TestDataProvider.getRandomName());
+        userRqBody.setEmail(TestDataProvider.getRandomEmail());
+        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+    }
+
+    /**
+     * Метод выполняет запрос на обновление атрибутов пользователя без токена авторизации
+     */
+    public void updateUserUnauthorised(UserRqBody userRqBody) {
+        response = httpManager.httpPatch(URL_USER, userRqBody);
     }
 }

@@ -14,7 +14,7 @@ public class UserRsBody {
     private User user;
 
     @Getter
-    private static class User {
+    public static class User {
         private String email;
         private String name;
     }

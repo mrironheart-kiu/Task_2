@@ -2,8 +2,6 @@ package testdata;
 
 import com.github.javafaker.Faker;
 
-import java.util.Random;
-
 /**
  * Класс для формирования тестовых данных в тестах
  */

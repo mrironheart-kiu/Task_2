@@ -14,7 +14,7 @@ public class UserParameterizedTestData extends TestDataProvider {
         return Stream.of(
                 Arguments.of(USER_RQ_BODY.toBuilder()
                                 .email(null)
-                                .password(getRandomEmail())
+                                .password(getRandomPassword())
                                 .name(getRandomName())
                                 .build(),
                         ERROR_USER_CREATE_NULL_CREDENTIALS
@@ -62,6 +62,29 @@ public class UserParameterizedTestData extends TestDataProvider {
                                 .password(null)
                                 .build(),
                         ERROR_USER_LOGIN_NULL_CREDENTIALS
+                )
+        );
+    }
+
+    private static Stream<Arguments> userUpdateUnauthorisedTestData() {
+        return Stream.of(
+                Arguments.of(USER_RQ_BODY.toBuilder()
+                                .email(getRandomEmail())
+                                .name(getRandomName())
+                                .build(),
+                        ERROR_USER_UNAUTHORIZED
+                ),
+                Arguments.of(USER_RQ_BODY.toBuilder()
+                                .email(null)
+                                .name(getRandomName())
+                                .build(),
+                        ERROR_USER_UNAUTHORIZED
+                ),
+                Arguments.of(USER_RQ_BODY.toBuilder()
+                                .email(getRandomEmail())
+                                .name(null)
+                                .build(),
+                        ERROR_USER_UNAUTHORIZED
                 )
         );
     }
