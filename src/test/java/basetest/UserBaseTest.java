@@ -13,6 +13,7 @@ import static constant.ConstantUrl.*;
 public class UserBaseTest {
     private HttpManager httpManager;
     private UserRqBody userRqBody = new UserRqBody();
+    protected Response response;
 
     @Step("Создаём тестовые данные перед выполнением теста")
     @BeforeEach
@@ -28,13 +29,19 @@ public class UserBaseTest {
     @Step("Очищаем тестовые данные после выполнения теста")
     @AfterEach
     void tearDown() {
-        httpManager.httpDelete(
-                URL_USER,
-                httpManager.httpPost(URL_USER_LOGIN, userRqBody)
-                        .body().as(UserRsBody.class).getAccessToken().split(" ")[1]);
+        if (response.body().as(UserRsBody.class).getAccessToken() != null) {
+            httpManager.httpDelete(
+                    URL_USER,
+                    httpManager.httpPost(URL_USER_LOGIN, userRqBody)
+                            .body().as(UserRsBody.class).getAccessToken().split(" ")[1]);
+        }
     }
 
-    public Response createUser() {
-        return httpManager.httpPost(URL_USER_REGISTER, userRqBody);
+    public void createUser() {
+        response = httpManager.httpPost(URL_USER_REGISTER, userRqBody);
+    }
+
+    public void createUser(UserRqBody userRqBody) {
+        response = httpManager.httpPost(URL_USER_REGISTER, userRqBody);
     }
 }

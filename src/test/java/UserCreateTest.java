@@ -1,28 +1,29 @@
+import assertstep.AssertStep;
 import basetest.UserBaseTest;
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import pojo.user.UserRqBody;
 import pojo.user.UserRsBody;
 
+import static constant.ConstantErrorMessage.*;
 import static constant.ConstantStoryTitle.TITLE_USER_REGISTER;
-import static constant.ConstantTestFailComment.DEFAULT_ERROR_COMMENT;
 import static constant.ConstantUrl.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class UserCreateTest extends UserBaseTest {
-    private Response response;
 
     @Test
     @Story(TITLE_USER_REGISTER)
     @DisplayName("POST на " + URL_USER_REGISTER + ". Успешная регистрация нового пользователя")
     @Description("Регистрируем нового пользователя через вызов API " + URL_USER_REGISTER)
     void userRegisterSuccessTest() {
-        response = createUser();
+        createUser();
 
         response.then().assertThat().statusCode(200);
-        assertTrue(response.body().as(UserRsBody.class).getSuccess(), DEFAULT_ERROR_COMMENT);
+        AssertStep.checkBodyStatus(true, response.body().as(UserRsBody.class).getSuccess());
     }
 
     @Test
@@ -32,9 +33,26 @@ public class UserCreateTest extends UserBaseTest {
             "от уже существующего через вызов API " + URL_USER_REGISTER)
     void userRegisterDuplicateTest() {
         createUser();
-        response = createUser();
+        createUser();
 
         response.then().assertThat().statusCode(403);
-        assertFalse(response.body().as(UserRsBody.class).getSuccess(), DEFAULT_ERROR_COMMENT);
+        AssertStep.checkBodyStatusAndMessage(
+                false, response.body().as(UserRsBody.class).getSuccess(),
+                ERROR_USER_CREATE_DUPLICATE, response.body().as(UserRsBody.class).getMessage());
+    }
+
+    @ParameterizedTest
+    @Story(TITLE_USER_REGISTER)
+    @MethodSource("testdata.UserParameterizedTestData#userTestData")
+    @DisplayName("POST на " + URL_USER_REGISTER + ". Невозможно создать пользователя без заполнения обязательных полей")
+    @Description("Выполняем попытку создания пользователя без заполнения обязательных полей, " +
+            "через вызов API " + URL_USER_REGISTER)
+    void userRegisterNullCredentialsTest(UserRqBody userRqBody, String errorMessage) {
+        createUser(userRqBody);
+
+        response.then().assertThat().statusCode(403);
+        AssertStep.checkBodyStatusAndMessage(
+                false, response.body().as(UserRsBody.class).getSuccess(),
+                errorMessage, response.body().as(UserRsBody.class).getMessage());
     }
 }
