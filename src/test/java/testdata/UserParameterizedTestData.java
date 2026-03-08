@@ -10,7 +10,7 @@ import static constant.ConstantErrorMessage.*;
 public class UserParameterizedTestData extends TestDataProvider {
     private static final UserRqBody USER_RQ_BODY = new UserRqBody();
 
-    private static Stream<Arguments> userTestData() {
+    private static Stream<Arguments> userRegisterTestData() {
         return Stream.of(
                 Arguments.of(USER_RQ_BODY.toBuilder()
                                 .email(null)
@@ -39,6 +39,29 @@ public class UserParameterizedTestData extends TestDataProvider {
                                 .name(null)
                                 .build(),
                         ERROR_USER_CREATE_NULL_CREDENTIALS
+                )
+        );
+    }
+
+    private static Stream<Arguments> userLoginTestData() {
+        return Stream.of(
+                Arguments.of(USER_RQ_BODY.toBuilder()
+                                .email(getRandomEmail())
+                                .password(getRandomPassword())
+                                .build(),
+                        ERROR_USER_LOGIN_NULL_CREDENTIALS
+                ),
+                Arguments.of(USER_RQ_BODY.toBuilder()
+                                .email(null)
+                                .password(getRandomPassword())
+                                .build(),
+                        ERROR_USER_LOGIN_NULL_CREDENTIALS
+                ),
+                Arguments.of(USER_RQ_BODY.toBuilder()
+                                .email(getRandomEmail())
+                                .password(null)
+                                .build(),
+                        ERROR_USER_LOGIN_NULL_CREDENTIALS
                 )
         );
     }

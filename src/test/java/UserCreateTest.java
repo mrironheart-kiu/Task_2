@@ -43,7 +43,7 @@ public class UserCreateTest extends UserBaseTest {
 
     @ParameterizedTest
     @Story(TITLE_USER_REGISTER)
-    @MethodSource("testdata.UserParameterizedTestData#userTestData")
+    @MethodSource("testdata.UserParameterizedTestData#userRegisterTestData")
     @DisplayName("POST на " + URL_USER_REGISTER + ". Невозможно создать пользователя без заполнения обязательных полей")
     @Description("Выполняем попытку создания пользователя без заполнения обязательных полей, " +
             "через вызов API " + URL_USER_REGISTER)

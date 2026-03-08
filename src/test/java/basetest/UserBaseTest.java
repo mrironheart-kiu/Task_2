@@ -30,18 +30,46 @@ public class UserBaseTest {
     @AfterEach
     void tearDown() {
         if (response.body().as(UserRsBody.class).getAccessToken() != null) {
-            httpManager.httpDelete(
-                    URL_USER,
-                    httpManager.httpPost(URL_USER_LOGIN, userRqBody)
-                            .body().as(UserRsBody.class).getAccessToken().split(" ")[1]);
+            httpManager.httpDelete(URL_USER, getUserToken());
         }
     }
 
+    /**
+     * Метод создаёт пользователя со случайными данными
+     */
     public void createUser() {
         response = httpManager.httpPost(URL_USER_REGISTER, userRqBody);
     }
 
+    /**
+     * Метод создаёт пользователя с указанными данными
+     */
     public void createUser(UserRqBody userRqBody) {
         response = httpManager.httpPost(URL_USER_REGISTER, userRqBody);
+    }
+
+    /**
+     * Метод авторизируется созданным случайным пользователем
+     */
+    public void loginUser() {
+        createUser();
+        response = httpManager.httpPost(URL_USER_LOGIN, userRqBody);
+    }
+
+    /**
+     * Метод авторизируется с указанными данными
+     */
+    public void loginUser(UserRqBody userRqBody) {
+        response = httpManager.httpPost(URL_USER_LOGIN, userRqBody);
+    }
+
+    /**
+     * Метод возвращается уникальный пользовательский токен
+     *
+     * @return String accessToken
+     */
+    public String getUserToken() {
+        return httpManager.httpPost(URL_USER_LOGIN, userRqBody)
+                .body().as(UserRsBody.class).getAccessToken().split(" ")[1];
     }
 }
