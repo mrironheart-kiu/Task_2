@@ -1,0 +1,27 @@
+package assertstep;
+
+import io.qameta.allure.Step;
+
+import static constant.ConstantTestFailComment.DEFAULT_ERROR_COMMENT;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class AssertStep {
+
+    @Step("Проверяем статус в теле ответа")
+    public static void checkBodyStatus(Boolean expectedStatus, Boolean actualStatus) {
+        assertEquals(expectedStatus, actualStatus, DEFAULT_ERROR_COMMENT);
+    }
+
+    @Step("Проверяем текст сообщения в теле ответа")
+    public static void checkBodyMessage(String expectedMessage, String actualMessage) {
+        assertEquals(expectedMessage, actualMessage, DEFAULT_ERROR_COMMENT);
+    }
+
+    @Step("Проверяем статус и текст сообщения в теле ответа")
+    public static void checkBodyStatusAndMessage(
+            Boolean expectedStatus, Boolean actualStatus,
+            String expectedMessage, String actualMessage) {
+        checkBodyStatus(expectedStatus, actualStatus);
+        checkBodyMessage(expectedMessage, actualMessage);
+    }
+}
