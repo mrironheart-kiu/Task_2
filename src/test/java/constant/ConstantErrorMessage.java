@@ -10,5 +10,5 @@ public class ConstantErrorMessage {
     public static final String ERROR_USER_UPDATE_DUPLICATE = "User with such email already exists";
     public static final String ERROR_USER_UNAUTHORIZED = "You should be authorised";
 
-    public static final String ERROR_ORDERS_EMPTY_INGREDIENTS_LIST = "Ingredients ids must be provided";
+    public static final String ERROR_ORDERS_EMPTY_INGREDIENTS_LIST = "Ingredient ids must be provided";
 }

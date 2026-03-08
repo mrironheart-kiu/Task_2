@@ -49,12 +49,12 @@ public class HttpManager {
     /**
      * Вызов метода GET с токеном пользователя
      *
-     * @param path      Путь до API
      * @param userToken Токен пользователя
+     * @param path      Путь до API
      * @return Объект Response для дальнейшей обработки
      */
     @Step("Выполняем вызов GET на метод {0} с токеном пользователя")
-    public Response httpGet(String path, String userToken) {
+    public Response httpGet(String userToken, String path) {
         return userToken == null ? httpGet(path) :
                 given().contentType(ContentType.JSON)
                         .and().auth().oauth2(userToken)
@@ -71,6 +71,23 @@ public class HttpManager {
     @Step("Выполняем вызов POST на метод {0}")
     public Response httpPost(String path, Object body) {
         return given().config(getConfig()).contentType(ContentType.JSON).and().body(body).when().post(path);
+    }
+
+    /**
+     * Вызов метода POST с токеном пользователя
+     *
+     * @param userToken Токен пользователя
+     * @param path      Путь до API
+     * @param body      Тело запроса API
+     * @return Объект Response для дальнейшей обработки
+     */
+    @Step("Выполняем вызов POST на метод {0}")
+    public Response httpPost(String userToken, String path, Object body) {
+        return userToken == null ? httpPost(path, body) :
+                given().config(getConfig()).contentType(ContentType.JSON)
+                        .and().auth().oauth2(userToken)
+                        .and().body(body)
+                        .when().post(path);
     }
 
     /**
@@ -104,12 +121,13 @@ public class HttpManager {
     }
 
     /**
-     * Вызов метода DELETE
+     * Вызов метода DELETE с токеном пользователя
      *
-     * @param path Путь до API
+     * @param userToken Токен пользователя
+     * @param path      Путь до API
      */
     @Step("Выполняем вызов DELETE на метод {0}")
-    public void httpDelete(String path, String userToken) {
+    public void httpDelete(String userToken, String path) {
         given().config(getConfig()).auth().oauth2(userToken).delete(path);
     }
 }

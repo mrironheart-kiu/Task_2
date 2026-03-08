@@ -36,7 +36,7 @@ public class UserLoginTest extends UserBaseTest {
         loginUser(userRqBody);
 
         response.then().assertThat().statusCode(401);
-        AssertStep.checkBodyStatusAndMessage(
+        AssertStep.checkBodyStatusAndAttribute(
                 false, response.body().as(UserRsBody.class).getSuccess(),
                 errorMessage, response.body().as(UserRsBody.class).getMessage());
     }

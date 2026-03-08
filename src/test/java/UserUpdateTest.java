@@ -66,7 +66,7 @@ public class UserUpdateTest extends UserBaseTest {
         updateUserEmailDuplicate();
 
         response.then().assertThat().statusCode(403);
-        AssertStep.checkBodyStatusAndMessage(
+        AssertStep.checkBodyStatusAndAttribute(
                 false, response.body().as(UserRsBody.class).getSuccess(),
                 ERROR_USER_UPDATE_DUPLICATE, response.body().as(UserRsBody.class).getMessage());
     }
@@ -80,7 +80,7 @@ public class UserUpdateTest extends UserBaseTest {
         updateUserUnauthorised(userRqBody);
 
         response.then().assertThat().statusCode(401);
-        AssertStep.checkBodyStatusAndMessage(
+        AssertStep.checkBodyStatusAndAttribute(
                 false, response.body().as(UserRsBody.class).getSuccess(),
                 errorMessage, response.body().as(UserRsBody.class).getMessage());
     }

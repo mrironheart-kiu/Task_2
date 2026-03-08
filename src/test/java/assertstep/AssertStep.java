@@ -18,7 +18,7 @@ public class AssertStep {
     }
 
     @Step("Проверяем статус и текст сообщения в теле ответа")
-    public static void checkBodyStatusAndMessage(
+    public static void checkBodyStatusAndAttribute(
             Boolean expectedStatus, Boolean actualStatus,
             String expectedMessage, String actualMessage) {
         checkBodyStatus(expectedStatus, actualStatus);

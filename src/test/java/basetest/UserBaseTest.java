@@ -1,6 +1,7 @@
 package basetest;
 
 import io.qameta.allure.Step;
+import lombok.Getter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import pojo.user.*;
@@ -12,10 +13,11 @@ import java.util.List;
 
 import static constant.ConstantUrl.*;
 
+@Getter
 public class UserBaseTest extends BaseTest {
     protected UserRqBody userRqBody = new UserRqBody();
-    private String userToken;
-    private final List<String> userTokenList = new ArrayList<>();
+    protected String userToken;
+    protected final List<String> userTokenList = new ArrayList<>();
 
     @Step("Создаём тестовые данные перед выполнением теста")
     @BeforeEach
@@ -33,7 +35,7 @@ public class UserBaseTest extends BaseTest {
     void tearDown() {
         if (!userTokenList.isEmpty()) {
             for (String userToken : userTokenList) {
-                httpManager.httpDelete(URL_USER, userToken);
+                httpManager.httpDelete(userToken, URL_USER);
             }
         }
     }

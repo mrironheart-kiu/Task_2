@@ -9,6 +9,7 @@ import java.util.List;
  */
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
+@Setter
 @Getter
 @Builder(toBuilder = true)
 @ToString

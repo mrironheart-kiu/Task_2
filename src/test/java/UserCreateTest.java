@@ -36,7 +36,7 @@ public class UserCreateTest extends UserBaseTest {
         createUser();
 
         response.then().assertThat().statusCode(403);
-        AssertStep.checkBodyStatusAndMessage(
+        AssertStep.checkBodyStatusAndAttribute(
                 false, response.body().as(UserRsBody.class).getSuccess(),
                 ERROR_USER_CREATE_DUPLICATE, response.body().as(UserRsBody.class).getMessage());
     }
@@ -51,7 +51,7 @@ public class UserCreateTest extends UserBaseTest {
         createUser(userRqBody);
 
         response.then().assertThat().statusCode(403);
-        AssertStep.checkBodyStatusAndMessage(
+        AssertStep.checkBodyStatusAndAttribute(
                 false, response.body().as(UserRsBody.class).getSuccess(),
                 errorMessage, response.body().as(UserRsBody.class).getMessage());
     }

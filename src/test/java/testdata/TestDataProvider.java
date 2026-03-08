@@ -34,4 +34,13 @@ public class TestDataProvider {
     public static String getRandomEmail() {
         return FAKER.internet().emailAddress();
     }
+
+    /**
+     * Метод возвращает случайный UUID из генератора JavaFaker
+     *
+     * @return String
+     */
+    public static String getRandomUuid() {
+        return FAKER.internet().uuid().replace("-", "");
+    }
 }
