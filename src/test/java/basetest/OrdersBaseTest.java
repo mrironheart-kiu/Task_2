@@ -11,6 +11,9 @@ import static constant.ConstantIngredients.*;
 import static constant.ConstantUrl.*;
 import static testdata.TestDataProvider.*;
 
+/**
+ * Базовый класс для тестов API /orders
+ */
 public class OrdersBaseTest extends UserBaseTest {
     protected OrderRqBody orderRqBody = new OrderRqBody();
 

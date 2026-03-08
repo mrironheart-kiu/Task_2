@@ -14,6 +14,9 @@ import java.util.List;
 
 import static constant.ConstantUrl.*;
 
+/**
+ * Базовый класс для тестов API управления пользователем /register, /login и /user
+ */
 @Getter
 public class UserBaseTest extends BaseTest {
     protected UserRqBody userRqBody = new UserRqBody();

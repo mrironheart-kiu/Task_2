@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import static constant.ConstantTestFailComment.DEFAULT_ERROR_COMMENT;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Класс-обёртка для Assert
+ */
 @NoArgsConstructor
 public class AssertStep {
 

@@ -3,7 +3,7 @@ package testdata;
 import com.github.javafaker.Faker;
 
 /**
- * Класс для формирования тестовых данных в тестах
+ * Класс для формирования тестовых данных
  */
 public class TestDataProvider {
     private static final Faker FAKER = new Faker();

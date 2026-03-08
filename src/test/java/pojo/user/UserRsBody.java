@@ -3,7 +3,7 @@ package pojo.user;
 import lombok.Getter;
 
 /**
- * Класс для обработки тела запроса API управления пользователем /register, /login и /user
+ * Класс для обработки тела ответа API управления пользователем /register, /login и /user
  */
 @Getter
 public class UserRsBody {

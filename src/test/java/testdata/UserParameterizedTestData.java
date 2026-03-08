@@ -7,6 +7,9 @@ import java.util.stream.Stream;
 
 import static constant.ConstantErrorMessage.*;
 
+/**
+ * Класс для формирования тестовых данных для API управления пользователем /register, /login и /user
+ */
 public class UserParameterizedTestData extends TestDataProvider {
     private static final UserRqBody USER_RQ_BODY = new UserRqBody();
 

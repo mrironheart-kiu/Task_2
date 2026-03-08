@@ -1,7 +1,7 @@
 package constant;
 
 /**
- * Класс для хранения переменных, содержащих тексты ошибок API Courier
+ * Класс для хранения переменных, содержащих тексты ошибок API сайта Stellar Burgers
  */
 public class ConstantErrorMessage {
     public static final String ERROR_USER_CREATE_DUPLICATE = "User already exists";

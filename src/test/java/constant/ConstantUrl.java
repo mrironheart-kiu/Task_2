@@ -1,7 +1,7 @@
 package constant;
 
 /**
- * Класс для хранения переменных, содержащих путь до API
+ * Класс для хранения переменных, содержащих путь до API сайта Stellar Burgers
  */
 public class ConstantUrl {
     public static final String URL_BASE = "https://stellarburgers.education-services.ru";
