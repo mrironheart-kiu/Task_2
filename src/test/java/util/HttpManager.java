@@ -49,12 +49,12 @@ public class HttpManager {
     /**
      * Вызов метода GET с токеном пользователя
      *
-     * @param userToken Токен пользователя
      * @param path      Путь до API
+     * @param userToken Токен пользователя
      * @return Объект Response для дальнейшей обработки
      */
     @Step("Выполняем вызов GET на метод {0} с токеном пользователя")
-    public Response httpGet(String userToken, String path) {
+    public Response httpGet(String path, String userToken) {
         return userToken == null ? httpGet(path) :
                 given().contentType(ContentType.JSON)
                         .and().auth().oauth2(userToken)
@@ -76,13 +76,13 @@ public class HttpManager {
     /**
      * Вызов метода POST с токеном пользователя
      *
-     * @param userToken Токен пользователя
      * @param path      Путь до API
      * @param body      Тело запроса API
+     * @param userToken Токен пользователя
      * @return Объект Response для дальнейшей обработки
      */
     @Step("Выполняем вызов POST на метод {0}")
-    public Response httpPost(String userToken, String path, Object body) {
+    public Response httpPost(String path, Object body, String userToken) {
         return userToken == null ? httpPost(path, body) :
                 given().config(getConfig()).contentType(ContentType.JSON)
                         .and().auth().oauth2(userToken)
@@ -105,13 +105,13 @@ public class HttpManager {
     /**
      * Вызов метода PATCH с токеном пользователя
      *
-     * @param userToken Токен пользователя
      * @param path      Путь до API
      * @param body      Тело запроса API
+     * @param userToken Токен пользователя
      * @return Объект Response для дальнейшей обработки
      */
     @Step("Выполняем вызов PATCH на метод {0} с токеном пользователя")
-    public Response httpPatch(String userToken, String path, Object body) {
+    public Response httpPatch(String path, Object body, String userToken) {
         return userToken == null ? httpPatch(path, body) :
                 given().config(getConfig())
                         .contentType(ContentType.JSON)
@@ -123,11 +123,11 @@ public class HttpManager {
     /**
      * Вызов метода DELETE с токеном пользователя
      *
-     * @param userToken Токен пользователя
      * @param path      Путь до API
+     * @param userToken Токен пользователя
      */
     @Step("Выполняем вызов DELETE на метод {0}")
-    public void httpDelete(String userToken, String path) {
+    public void httpDelete(String path, String userToken) {
         given().config(getConfig()).auth().oauth2(userToken).delete(path);
     }
 }

@@ -1,5 +1,6 @@
 package basetest;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import org.junit.jupiter.api.AfterEach;
@@ -28,6 +29,8 @@ public class UserBaseTest extends BaseTest {
                 .password(TestDataProvider.getRandomPassword())
                 .name(TestDataProvider.getRandomName())
                 .build();
+        Allure.step("Устанавливаем URL по умолчанию: " + URL_BASE);
+        Allure.step("Создаём тестового клиента: " + userRqBody.toString());
     }
 
     @Step("Очищаем тестовые данные после выполнения теста")
@@ -35,7 +38,7 @@ public class UserBaseTest extends BaseTest {
     void tearDown() {
         if (!userTokenList.isEmpty()) {
             for (String userToken : userTokenList) {
-                httpManager.httpDelete(userToken, URL_USER);
+                httpManager.httpDelete(URL_USER, userToken);
             }
         }
     }
@@ -80,7 +83,7 @@ public class UserBaseTest extends BaseTest {
     public void updateUserName() {
         createUser();
         userRqBody.setName(TestDataProvider.getRandomName());
-        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+        response = httpManager.httpPatch(URL_USER, userRqBody, userToken);
     }
 
     /**
@@ -89,7 +92,7 @@ public class UserBaseTest extends BaseTest {
     public void updateUserEmail() {
         createUser();
         userRqBody.setEmail(TestDataProvider.getRandomEmail());
-        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+        response = httpManager.httpPatch(URL_USER, userRqBody, userToken);
     }
 
     /**
@@ -105,7 +108,7 @@ public class UserBaseTest extends BaseTest {
                 .build();
         createUser();
         userRqBody.setEmail(existUserEmail);
-        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+        response = httpManager.httpPatch(URL_USER, userRqBody, userToken);
     }
 
     /**
@@ -115,7 +118,7 @@ public class UserBaseTest extends BaseTest {
         createUser();
         userRqBody.setName(TestDataProvider.getRandomName());
         userRqBody.setEmail(TestDataProvider.getRandomEmail());
-        response = httpManager.httpPatch(userToken, URL_USER, userRqBody);
+        response = httpManager.httpPatch(URL_USER, userRqBody, userToken);
     }
 
     /**

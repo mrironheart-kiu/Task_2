@@ -1,10 +1,12 @@
 package assertstep;
 
 import io.qameta.allure.Step;
+import lombok.NoArgsConstructor;
 
 import static constant.ConstantTestFailComment.DEFAULT_ERROR_COMMENT;
 import static org.junit.jupiter.api.Assertions.*;
 
+@NoArgsConstructor
 public class AssertStep {
 
     @Step("Проверяем статус в теле ответа")
@@ -17,11 +19,23 @@ public class AssertStep {
         assertEquals(expectedMessage, actualMessage, DEFAULT_ERROR_COMMENT);
     }
 
+    @Step("Проверяем что значение атрибута в теле ответа != NULL")
+    public static void checkBodyNotNull(Object object) {
+        assertNotNull(object, DEFAULT_ERROR_COMMENT);
+    }
+
     @Step("Проверяем статус и текст сообщения в теле ответа")
     public static void checkBodyStatusAndAttribute(
             Boolean expectedStatus, Boolean actualStatus,
             String expectedMessage, String actualMessage) {
         checkBodyStatus(expectedStatus, actualStatus);
         checkBodyAttributeValue(expectedMessage, actualMessage);
+    }
+
+    @Step("Проверяем статус и что значение атрибута в теле ответа != NULL")
+    public static void checkBodyStatusAndAttributeNotNull(
+            Boolean expectedStatus, Boolean actualStatus, Object object) {
+        checkBodyStatus(expectedStatus, actualStatus);
+        checkBodyNotNull(object);
     }
 }

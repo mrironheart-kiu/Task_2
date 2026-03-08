@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 public class OrderGetRsBody {
     private Boolean success;
+    private String message;
     private List<Order> orders;
     private Integer total;
     private Integer totalToday;
