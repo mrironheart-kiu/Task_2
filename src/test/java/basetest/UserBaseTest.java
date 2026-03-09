@@ -39,11 +39,7 @@ public class UserBaseTest extends BaseTest {
     @Step("Очищаем тестовые данные после выполнения теста")
     @AfterEach
     void tearDown() {
-        if (!userTokenList.isEmpty()) {
-            for (String userToken : userTokenList) {
-                httpManager.httpDelete(URL_USER, userToken);
-            }
-        }
+        deleteUser(userTokenList);
     }
 
     /**
@@ -129,5 +125,16 @@ public class UserBaseTest extends BaseTest {
      */
     public void updateUserUnauthorised(UserRqBody userRqBody) {
         response = httpManager.httpPatch(URL_USER, userRqBody);
+    }
+
+    /**
+     * Метод удаялет пользователя по его токену
+     */
+    public void deleteUser(List<String> userTokenList) {
+        if (!userTokenList.isEmpty()) {
+            for (String userToken : userTokenList) {
+                httpManager.httpDelete(URL_USER, userToken);
+            }
+        }
     }
 }
